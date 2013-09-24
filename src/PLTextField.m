@@ -33,7 +33,17 @@
 
 - (CGRect)placeholderRectForBounds:(CGRect)bounds
 {
-	return( CGRectMake( 0, 0, self.frame.size.width, self.frame.size.height ) );
+	CGRect rect = self.bounds;  // don't use self.frame here!
+	if( self.leftView )
+	{
+		rect.origin.x   += ( self.leftView.frame.origin.x + self.leftView.frame.size.width );
+		rect.size.width -= ( self.leftView.frame.origin.x + self.leftView.frame.size.width );
+	}
+	if( self.rightView )
+	{
+		rect.size.width -= ( self.bounds.size.width - self.rightView.frame.origin.x );
+	}
+	return( rect );
 }
 
 - (void)drawPlaceholderInRect:(CGRect)rect
